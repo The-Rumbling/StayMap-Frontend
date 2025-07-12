@@ -4,7 +4,7 @@
       <div class="[background:#0f0f0f] card mb-4 p-6 rounded-xl flex-col justify-between cursor-pointer" (click)="openConcertInfo(concert)">
         <h3 class="font-bold text-lg mb-6">{{ concert.artist.name }}</h3>
         @if (concert.date) {
-          <p class="mb-6">{{ concert.venue.name }} - {{ parseDate(concert.date) }}</p>
+          <p class="mb-6">{{ concert.venue.name }} - {{ parseDate(concert.date) }}</p> 
         }
         <p class="font-bold" [ngClass]="{'sold-out [color:#f87171]': concert.status === 'SOLD OUT', 'available [color:green]': concert.status === 'AVAILABLE'}">
           {{ concert.status === 'AVAILABLE' ? "Available" : "Sold out" }}
