@@ -13,7 +13,7 @@
     }
   </aside>
   <main class="main [background:#1a1a1a] rounded-xl p-6 overflow-auto">
-    <h1 class="font-black text-4xl mb-4 text-white">Find concerts <span class="[color:#CB6CE6]">nearby</span></h1>
+    <h1 class="font-black text-4xl mb-4 text-white">Find concerts <span class="[color:#CB6CE6]">nearby</span></h1> 
     <google-map height="93%" width="100%" [center]="center" [zoom]="zoom" [options]="mapOptions">
       @if (this.currentUser.location.lat !== 0 && this.showUserMarker) {
         <map-marker [position]="this.currentUser.location" [icon]="this.userIcon"/>
