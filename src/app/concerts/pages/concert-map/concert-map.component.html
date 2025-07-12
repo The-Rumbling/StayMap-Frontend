@@ -1,0 +1,69 @@
+<div id="app" class="h-screen grid gap-2 p-2">
+  <aside class="aside [background:#1a1a1a] rounded-lg px-6 pt-6 pb-2 overflow-auto text-white">
+    @for (concert of concerts; track concert.id){
+      <div class="[background:#0f0f0f] card mb-4 p-6 rounded-xl flex-col justify-between cursor-pointer" (click)="openConcertInfo(concert)">
+        <h3 class="font-bold text-lg mb-6">{{ concert.artist.name }}</h3>
+        @if (concert.date) {
+          <p class="mb-6">{{ concert.venue.name }} - {{ parseDate(concert.date) }}</p>
+        }
+        <p class="font-bold" [ngClass]="{'sold-out [color:#f87171]': concert.status === 'SOLD OUT', 'available [color:green]': concert.status === 'AVAILABLE'}">
+          {{ concert.status === 'AVAILABLE' ? "Available" : "Sold out" }}
+        </p>
+      </div>
+    }
+  </aside>
+  <main class="main [background:#1a1a1a] rounded-xl p-6 overflow-auto">
+    <h1 class="font-black text-4xl mb-4 text-white">Find concerts <span class="[color:#CB6CE6]">nearby</span></h1>
+    <google-map height="93%" width="100%" [center]="center" [zoom]="zoom" [options]="mapOptions">
+      @if (this.currentUser.location.lat !== 0 && this.showUserMarker) {
+        <map-marker [position]="this.currentUser.location" [icon]="this.userIcon"/>
+      }
+      @for (concert of concerts; track concert.id) {
+        <map-marker [position]="concert.venue.location" [icon]="this.customIcon" #marker="mapMarker" (mapClick)="openConcertInfo(concert)"/>
+      }
+      <map-info-window class="concert-details" (closeclick)="onCloseConcertInfo()">
+        @if (this.concertSelected.date) {
+          <div>
+            <div class="w-full flex justify-center mb-2">
+              <img class="size-20 object-cover" [src]="this.concertSelected.image" [alt]="this.concertSelected.artist.name">
+            </div>
+            <p class="[color:#CB6CE6] font-bold text-base">{{ this.concertSelected.artist.name }}</p>
+            <p class="[color:#CB6CE6] text-base">{{ this.concertSelected.venue.name }}</p>
+            <p class="[color:#CB6CE6] text-base">{{ parseDate(this.concertSelected.date) }}</p>
+          </div>
+        }
+      </map-info-window>
+    </google-map>
+  </main>
+</div>
+<style>
+    #app {
+      grid-template-areas:
+        "toolbar toolbar"
+        "aside main";
+      grid-template-columns: 300px 1fr;
+      grid-template-rows: 60px auto;
+    }
+
+    .toolbar {
+      grid-area: toolbar;
+    }
+
+    .aside {
+      grid-area: aside;
+    }
+
+    .main {
+      grid-area: main;
+    }
+    
+    .card {
+      border-left: 5px solid #CB6CE6;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+</style>

@@ -1,0 +1,69 @@
+<div id="app" class="h-screen grid gap-2 p-15">
+  <div class="[grid-area:toolbar]"></div>
+  <div class="[grid-area:main] flex justify-center gap-20">
+    <section class="p-4 flex">
+      <div>
+        <div class="w-full flex justify-center">
+          <p class="text-white text-3xl font-bold mb-12">My profile: <span class="text-[#CB6CE6]">{{ currentUser.type.toUpperCase() }}</span></p>
+        </div>
+        <div class="w-full flex justify-center">
+          <img [src]="currentUser.profileImage || 'https://via.placeholder.com/150'" alt="Foto de perfil" class="size-60 object-cover rounded-full border-[#CB6CE6] border-10 mb-4"/>
+        </div>
+        <div class="flex w-full justify-center mb-12">
+          <p class="text-white font-medium text-xl">Username: <span class="font-bold text-2xl">{{ currentUser.name }}</span></p>
+        </div>
+        <div class="w-full flex justify-center mb-6">
+          <label class="bg-[#CB6CE6] py-2.5 px-5 rounded-full text-white font-bold transition transform duration-200 hover:bg-[#ac5bc2] hover:scale-105" (click)="onEditProfile()">Edit profile</label>
+        </div>
+        <div class="w-full flex justify-center">
+          <label class="bg-gray-600 py-2.5 px-5 rounded-full text-white font-bold transition transform duration-200 hover:bg-gray-700 hover:scale-105" (click)="onLogout()">Log out</label>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="flex gap-8 mb-8">
+        <div class="concert-box min-w-[15rem] h-[30rem] max-h-[30rem] overflow-y-auto">
+          <h3>Assisted Concerts</h3>
+          <ul>
+            <li *ngIf="concertsAssisted.length === 0">No has asistido a ningún concierto.</li>
+            <li *ngFor="let concert of concertsAssisted">
+              <a [routerLink]="['/concerts', concert.id]" class="concert-link">
+                {{ concert.artist.name }}<br />
+                <span>{{ parseDate(concert.date) }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="concert-box min-w-[15rem]">
+          <h3>Conciertos por asistir</h3>
+          <ul>
+            <li *ngIf="upcomingConcerts.length === 0">No tienes conciertos pendientes.</li>
+            <li *ngFor="let concert of upcomingConcerts">
+              <a [routerLink]="['/concerts', concert.id]" class="concert-link">
+                {{ concert.artist.name }}<br />
+                <span>{{ parseDate(concert.date) }}</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="w-full flex justify-center mb-6">
+        <label class="bg-[#CB6CE6] py-2.5 px-5 rounded-full text-white font-bold transition transform duration-200 hover:bg-[#ac5bc2] hover:scale-105">View Statistics</label>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<style>
+  #app {
+    grid-template-areas:
+    "toolbar toolbar"
+    "main main";
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 60px auto;
+  }
+</style>
+
+

@@ -1,0 +1,15 @@
+<h2 class="dialog-title">Editar perfil</h2>
+<form (ngSubmit)="onSubmit()" class="edit-form">
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Username" [(ngModel)]="userData.name" name="name" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="Foto de perfil (URL)" [(ngModel)]="userData.profileImage" name="profileImage" />
+  </mat-form-field>
+
+  <div class="form-actions">
+    <button type="submit" mat-raised-button color="primary">Modificar</button>
+    <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+  </div>
+</form>
